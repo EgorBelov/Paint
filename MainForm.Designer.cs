@@ -60,6 +60,7 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.backgroundStripButton = new System.Windows.Forms.ToolStripButton();
             this.eraserStripButton = new System.Windows.Forms.ToolStripButton();
+            this.lineStripButton = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -211,6 +212,7 @@
             this.thicknessStripButton,
             this.toolStripSeparator1,
             this.penStripButton,
+            this.lineStripButton,
             this.circleStripButton,
             this.starStripButton,
             this.toolStripSeparator2,
@@ -240,7 +242,7 @@
             // 
             this.черныйToolStripMenuItem.Image = global::Paint.Properties.Resources.blackcat;
             this.черныйToolStripMenuItem.Name = "черныйToolStripMenuItem";
-            this.черныйToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.черныйToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.черныйToolStripMenuItem.Text = "Черный";
             this.черныйToolStripMenuItem.Click += new System.EventHandler(this.черныйToolStripMenuItem_Click);
             // 
@@ -248,7 +250,7 @@
             // 
             this.красныйToolStripMenuItem.Image = global::Paint.Properties.Resources.redcat;
             this.красныйToolStripMenuItem.Name = "красныйToolStripMenuItem";
-            this.красныйToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.красныйToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.красныйToolStripMenuItem.Text = "Красный";
             this.красныйToolStripMenuItem.Click += new System.EventHandler(this.красныйToolStripMenuItem_Click);
             // 
@@ -256,7 +258,7 @@
             // 
             this.синийToolStripMenuItem.Image = global::Paint.Properties.Resources.bluecat;
             this.синийToolStripMenuItem.Name = "синийToolStripMenuItem";
-            this.синийToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.синийToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.синийToolStripMenuItem.Text = "Синий ";
             this.синийToolStripMenuItem.Click += new System.EventHandler(this.синийToolStripMenuItem_Click);
             // 
@@ -264,7 +266,7 @@
             // 
             this.зеленыйToolStripMenuItem.Image = global::Paint.Properties.Resources.greencat;
             this.зеленыйToolStripMenuItem.Name = "зеленыйToolStripMenuItem";
-            this.зеленыйToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.зеленыйToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.зеленыйToolStripMenuItem.Text = "Зеленый";
             this.зеленыйToolStripMenuItem.Click += new System.EventHandler(this.зеленыйToolStripMenuItem_Click);
             // 
@@ -272,7 +274,7 @@
             // 
             this.другойToolStripMenuItem.Image = global::Paint.Properties.Resources.anothercat;
             this.другойToolStripMenuItem.Name = "другойToolStripMenuItem";
-            this.другойToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.другойToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
             this.другойToolStripMenuItem.Text = "Другой...";
             this.другойToolStripMenuItem.Click += new System.EventHandler(this.другойToolStripMenuItem_Click);
             // 
@@ -346,6 +348,16 @@
             this.eraserStripButton.Text = "Ластик";
             this.eraserStripButton.Click += new System.EventHandler(this.eraserStripButton_Click);
             // 
+            // lineStripButton
+            // 
+            this.lineStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.lineStripButton.Image = ((System.Drawing.Image)(resources.GetObject("lineStripButton.Image")));
+            this.lineStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.lineStripButton.Name = "lineStripButton";
+            this.lineStripButton.Size = new System.Drawing.Size(46, 22);
+            this.lineStripButton.Text = "Линия";
+            this.lineStripButton.Click += new System.EventHandler(this.lineStripButton_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -402,6 +414,7 @@
         private System.Windows.Forms.ToolStripButton backgroundStripButton;
         private System.Windows.Forms.ToolStripButton eraserStripButton;
         private System.Windows.Forms.ToolStripButton thicknessStripButton;
+        private System.Windows.Forms.ToolStripButton lineStripButton;
     }
 }
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -144,6 +145,7 @@ namespace Paint
         {
             //if (DocumentForm.pictureBox1 != null)
             //{
+                Tool = Tools.Pen;
                 Color = DocumentForm.backColor;
             //}
         }
@@ -151,12 +153,15 @@ namespace Paint
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var dlg = new OpenFileDialog();
+            dlg.Filter = "Windows Bitmap (*.bmp)|*.bmp| Файлы JPEG (*.jpeg, *.jpg)|*.jpeg;*.jpg|Все файлы ()*.*|*.*";
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 var documentForm = new DocumentForm(new Bitmap(dlg.FileName), dlg.FileName);
                 documentForm.MdiParent = this;
                 documentForm.Show();
             }
+            
+
         }
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -166,6 +171,8 @@ namespace Paint
             if (d != null && !(d.WasOpened))
             {
                 var dlg = new SaveFileDialog();
+                dlg.AddExtension = true;
+                dlg.Filter = "Windows Bitmap (*.bmp)|*.bmp| Файлы JPEG (*.jpg)|*.jpg";
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     d.SaveAs(dlg.FileName);
@@ -175,6 +182,26 @@ namespace Paint
             {
                 d.SaveAs(d.FilePath);
             }
+            //DocumentForm currentform = (DocumentForm)ActiveMdiChild;
+
+            //if (!currentform.WasOpened)
+            //{
+            //    currentform.WasOpened = true;
+            //    SaveFileDialog dlg = new SaveFileDialog();
+            //    dlg.AddExtension = true;
+            //    dlg.Filter = "Windows Bitmap (*.bmp)|*.bmp| Файлы JPEG (*.jpg)|*.jpg";
+            //    ImageFormat[] ff = { ImageFormat.Bmp, ImageFormat.Jpeg };
+
+            //    if (dlg.ShowDialog() == DialogResult.OK)
+            //    {
+            //        currentform.bitmap.Save(dlg.FileName, ff[dlg.FilterIndex - 1]);
+            //    }
+            //    currentform.dlg = dlg;
+            //}
+            //else
+            //{
+            //    currentform.bitmap.Save(currentform.dlg.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
+            //}
         }
 
         private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
@@ -212,6 +239,11 @@ namespace Paint
             //    }
 
             //}
+        }
+
+        private void lineStripButton_Click(object sender, EventArgs e)
+        {
+            Tool = Tools.Line;
         }
     }
 }

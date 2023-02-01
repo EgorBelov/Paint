@@ -13,6 +13,10 @@ namespace Paint
         /// </summary>
         Pen,
         /// <summary>
+        /// Линия
+        /// </summary>
+        Line,
+        /// <summary>
         /// Окружность
         /// </summary>
         Circle,

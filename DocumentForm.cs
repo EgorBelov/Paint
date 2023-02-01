@@ -19,6 +19,9 @@ namespace Paint
         public bool WasOpened = false;
         public string FilePath = "";
         public static Color backColor = Color.White;
+        //PictureBox org;
+        Image img;
+        //public SaveFileDialog dlg = new SaveFileDialog();
         public DocumentForm()
         {
             InitializeComponent();
@@ -28,6 +31,7 @@ namespace Paint
             pictureBox1.Width = MainForm.Width;
             pictureBox1.Height = MainForm.Height;
             backColor = pictureBox1.BackColor;
+            img = pictureBox1.Image;
         }
         public DocumentForm(Bitmap bmp, string path)
         {
@@ -39,13 +43,14 @@ namespace Paint
             pictureBox1.Width = MainForm.Width;
             pictureBox1.Height = MainForm.Height;
             backColor = pictureBox1.BackColor;
+            img = pictureBox1.Image;
         }
         private void DocumentForm_MouseDown(object sender, MouseEventArgs e)
         {
             x = e.X;
             y = e.Y;
         }
-
+        
         private void DocumentForm_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -59,12 +64,23 @@ namespace Paint
                         g.DrawLine(pen, x, y, e.X, e.Y);
                         x = e.X;
                         y = e.Y;
+
+                        break;
+                    case Tools.Line:
+                        bitmapTemp = (Bitmap)bitmap.Clone();
+                        g = Graphics.FromImage(bitmapTemp);
+                       
+
+                        g.DrawLine(pen, x, y, e.X, e.Y);
+                        pictureBox1.Image = bitmapTemp;
+                        //x = e.X; y = e.Y;
                         break;
                     case Tools.Circle:
                         bitmapTemp = (Bitmap)bitmap.Clone();
                         g = Graphics.FromImage(bitmapTemp);
                         g.DrawEllipse(pen, new Rectangle(x, y, e.X - x, e.Y - y));
                         pictureBox1.Image = bitmapTemp;
+                        //img = pictureBox1.Image;
                         break;
                     case Tools.Star:
                         bitmapTemp = (Bitmap)bitmap.Clone();
@@ -73,10 +89,11 @@ namespace Paint
                         PointF[] Star1 = Calculate5StarPoints(new PointF(e.X, e.Y), e.X - x, (e.X - x) / 2.5f);
                         g.DrawPolygon(pen, Star1);
                         pictureBox1.Image = bitmapTemp;
+                        //img = pictureBox1.Image;
                         break;
                 }
 
-
+                img = pictureBox1.Image;
                 pictureBox1.Invalidate();
             }
         }
@@ -94,6 +111,9 @@ namespace Paint
         {
             switch (MainForm.Tool)
             {
+                case Tools.Line:
+                    bitmap = bitmapTemp;
+                    break;
                 case Tools.Circle:
                     bitmap = bitmapTemp;
                     break;
@@ -131,15 +151,32 @@ namespace Paint
             pictureBox1.Height += 50;
             pictureBox1.Width += 50;
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            //pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            //pictureBox1.Height -= 50;
-            //pictureBox1.Width -= 50;
+            pictureBox1.Height -= 50;
+            pictureBox1.Width -= 50;
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+            //pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+        }
+        Image ZoomPicture(Image img, Size size)
+        {
+            Bitmap bm = new Bitmap(img, Convert.ToInt32(img.Width * size.Width),
+                Convert.ToInt32(img.Height * size.Height));
+            Graphics gpu = Graphics.FromImage(bm);
+            gpu.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            return bm;
+        }
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            if (trackBar1.Value != 0)
+            {
+                //Image img = pictureBox1.Image
+                //pictureBox1.Image = null;
+                pictureBox1.Image = ZoomPicture(img, new Size(trackBar1.Value, trackBar1.Value));
+            }
         }
 
         private PointF[] Calculate5StarPoints(PointF Orig, float outerradius, float innerradius)
