@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -182,6 +183,7 @@ namespace Paint
             {
                 d.SaveAs(d.FilePath);
             }
+
             //DocumentForm currentform = (DocumentForm)ActiveMdiChild;
 
             //if (!currentform.WasOpened)
@@ -211,6 +213,8 @@ namespace Paint
             if (d != null)
             {
                 var dlg = new SaveFileDialog();
+                dlg.AddExtension = true;
+                dlg.Filter = "Windows Bitmap (*.bmp)|*.bmp| Файлы JPEG (*.jpg)|*.jpg";
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
                     d.SaveAs(dlg.FileName);

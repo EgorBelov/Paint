@@ -93,8 +93,9 @@ namespace Paint
                         break;
                 }
 
-                img = pictureBox1.Image;
+                
                 pictureBox1.Invalidate();
+                img = pictureBox1.Image;
             }
         }
 
@@ -122,11 +123,33 @@ namespace Paint
                     break;
             }
         }
+        //public void SaveAs(string path)
+        //{
+        //    bitmap.Save(path);
+        //    WasOpened = true;
+        //    FilePath = path;
+        //}
         public void SaveAs(string path)
         {
-            bitmap.Save(path);
-            WasOpened = true;
-            FilePath = path;
+            if (WasOpened)
+            {
+                Bitmap bmp;
+               
+                bmp = new Bitmap(bitmap);
+
+                using (bmp)
+                {
+                    
+                    bmp.Save(path);
+                }
+            }
+            else
+            {
+                bitmap.Save(path);
+                WasOpened = true;
+                FilePath = path;
+            }
+           
         }
         protected override void OnPaint(PaintEventArgs e)
         {
