@@ -144,7 +144,7 @@ namespace Paint
         {
             //if (DocumentForm.pictureBox1 != null)
             //{
-            //    Color = DocumentForm.pictureBox1.BackColor;
+                Color = DocumentForm.backColor;
             //}
         }
 
@@ -178,6 +178,28 @@ namespace Paint
         }
 
         private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var d = ActiveMdiChild as DocumentForm;
+
+            if (d != null)
+            {
+                var dlg = new SaveFileDialog();
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    d.SaveAs(dlg.FileName);
+                }
+
+            }
+        }
+
+        private void thicknessStripButton_Click(object sender, EventArgs e)
+        {
+            var frm = new ThicknessSizeForm();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             var d = ActiveMdiChild as DocumentForm;
 

@@ -18,6 +18,7 @@ namespace Paint
         private Bitmap bitmapTemp;
         public bool WasOpened = false;
         public string FilePath = "";
+        public static Color backColor = Color.White;
         public DocumentForm()
         {
             InitializeComponent();
@@ -26,7 +27,7 @@ namespace Paint
             pictureBox1.Image = bitmap;
             pictureBox1.Width = MainForm.Width;
             pictureBox1.Height = MainForm.Height;
-
+            backColor = pictureBox1.BackColor;
         }
         public DocumentForm(Bitmap bmp, string path)
         {
@@ -37,6 +38,7 @@ namespace Paint
             pictureBox1.Image = bitmap;
             pictureBox1.Width = MainForm.Width;
             pictureBox1.Height = MainForm.Height;
+            backColor = pictureBox1.BackColor;
         }
         private void DocumentForm_MouseDown(object sender, MouseEventArgs e)
         {
@@ -111,6 +113,35 @@ namespace Paint
             base.OnPaint(e);
             e.Graphics.DrawImage(bitmap, 0, 0);
         }
+
+        private void DocumentForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+           
+                var dlg = new SaveFileDialog();
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    this.SaveAs(dlg.FileName);
+                }
+
+           
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Height += 50;
+            pictureBox1.Width += 50;
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            pictureBox1.Height -= 50;
+            pictureBox1.Width -= 50;
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
+        }
+
         private PointF[] Calculate5StarPoints(PointF Orig, float outerradius, float innerradius)
         {
             // Define some variables to avoid as much calculations as possible

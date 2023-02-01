@@ -52,6 +52,7 @@
             this.синийToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.зеленыйToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.другойToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.thicknessStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.penStripButton = new System.Windows.Forms.ToolStripButton();
             this.circleStripButton = new System.Windows.Forms.ToolStripButton();
@@ -207,6 +208,7 @@
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripDropDownButton1,
+            this.thicknessStripButton,
             this.toolStripSeparator1,
             this.penStripButton,
             this.circleStripButton,
@@ -273,6 +275,16 @@
             this.другойToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.другойToolStripMenuItem.Text = "Другой...";
             this.другойToolStripMenuItem.Click += new System.EventHandler(this.другойToolStripMenuItem_Click);
+            // 
+            // thicknessStripButton
+            // 
+            this.thicknessStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.thicknessStripButton.Image = ((System.Drawing.Image)(resources.GetObject("thicknessStripButton.Image")));
+            this.thicknessStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.thicknessStripButton.Name = "thicknessStripButton";
+            this.thicknessStripButton.Size = new System.Drawing.Size(62, 22);
+            this.thicknessStripButton.Text = "Толщина";
+            this.thicknessStripButton.Click += new System.EventHandler(this.thicknessStripButton_Click);
             // 
             // toolStripSeparator1
             // 
@@ -345,6 +357,7 @@
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "MainForm";
             this.Text = "MyPaint";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MaimForm_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
@@ -387,6 +400,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripButton backgroundStripButton;
         private System.Windows.Forms.ToolStripButton eraserStripButton;
+        private System.Windows.Forms.ToolStripButton thicknessStripButton;
     }
 }
 

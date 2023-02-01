@@ -31,6 +31,8 @@ namespace Paint
         private void InitializeComponent()
         {
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -51,16 +53,39 @@ namespace Paint
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DocumentForm_MouseMove);
             this.pictureBox1.MouseUp += new System.Windows.Forms.MouseEventHandler(this.DocumentForm_MouseUp);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(0, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(99, 29);
+            this.button1.TabIndex = 1;
+            this.button1.Text = "+";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(105, 0);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(99, 29);
+            this.button2.TabIndex = 2;
+            this.button2.Text = "-";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
             // DocumentForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.DarkGray;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
             this.DoubleBuffered = true;
             this.Name = "DocumentForm";
             this.Text = "Document";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.DocumentForm_FormClosing);
             this.Load += new System.EventHandler(this.DocumentForm_Load);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.DocumentForm_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.DocumentForm_MouseMove);
@@ -73,5 +98,7 @@ namespace Paint
         #endregion
 
         private System.Windows.Forms.PictureBox pictureBox1;
+        private Button button1;
+        private Button button2;
     }
 }
