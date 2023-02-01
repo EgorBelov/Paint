@@ -13,14 +13,19 @@ namespace Paint
     public partial class MainForm : Form
     {
         public static Color Color { get; set; }
+        public static Tools Tool { get; set; }
         public static int Width { get; set; }
-
+        public static int Height { get; set; }
+        public static int Thickness { get; set; }
 
         public MainForm()
         {
             InitializeComponent();
             Color = Color.Black;
-            Width = 3;
+            Tool = Tools.Pen;
+            Width = 600;
+            Height = 400;
+            Thickness = 1;
         }
 
         private void MaimForm_Load(object sender, EventArgs e)
@@ -41,7 +46,9 @@ namespace Paint
 
         private void toolStripLabel1_Click(object sender, EventArgs e)
         {
-
+            var frm = new CanvasSizeForm();
+            frm.MdiParent = this;
+            frm.Show();
         }
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -52,6 +59,137 @@ namespace Paint
         {
             var frmAbout = new AboutForm();
             frmAbout.ShowDialog();
+        }
+
+        private void рисунокToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            размерХолстаToolStripMenuItem.Enabled = !(ActiveMdiChild == null);
+        }
+        private void размерХолстаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var frm = new CanvasSizeForm();
+            frm.MdiParent = this;
+            frm.Show();
+        }
+        private void черныйToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Color = Color.Black;
+        }
+        private void красныйToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Color = Color.Red;
+        }
+
+        private void синийToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Color = Color.Blue;
+        }
+
+        private void зеленыйToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Color = Color.Green;
+        }
+
+        private void другойToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorDialog cd = new ColorDialog();
+            if (cd.ShowDialog() == DialogResult.OK)
+                Color = cd.Color;
+        }
+
+        private void каскадомToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.Cascade);
+        }
+
+        private void слеваНаправоToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.TileVertical);
+        }
+
+        private void сверхуВнизToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.TileHorizontal);
+        }
+
+        private void упорядочитьЗначкиToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.ArrangeIcons);
+        }
+
+        private void penStripButton_Click(object sender, EventArgs e)
+        {
+            Tool = Tools.Pen;
+        }
+
+        private void circleStripButton_Click(object sender, EventArgs e)
+        {
+            Tool = Tools.Circle;
+        }
+
+        private void starStripButton_Click(object sender, EventArgs e)
+        {
+            Tool= Tools.Star;
+        }
+
+        private void backgroundStripButton_Click(object sender, EventArgs e)
+        {
+            //if (DocumentForm.pictureBox1 != null)
+            //{
+            //    DocumentForm.pictureBox1.BackColor = Color;
+            //}
+        }
+
+        private void eraserStripButton_Click(object sender, EventArgs e)
+        {
+            //if (DocumentForm.pictureBox1 != null)
+            //{
+            //    Color = DocumentForm.pictureBox1.BackColor;
+            //}
+        }
+
+        private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dlg = new OpenFileDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                var documentForm = new DocumentForm(new Bitmap(dlg.FileName), dlg.FileName);
+                documentForm.MdiParent = this;
+                documentForm.Show();
+            }
+        }
+
+        private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var d = ActiveMdiChild as DocumentForm;
+
+            if (d != null && !(d.WasOpened))
+            {
+                var dlg = new SaveFileDialog();
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    d.SaveAs(dlg.FileName);
+                }
+            }
+            else if (d != null && d.WasOpened)
+            {
+                d.SaveAs(d.FilePath);
+            }
+        }
+
+        private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var d = ActiveMdiChild as DocumentForm;
+
+            if (d != null)
+            {
+                var dlg = new SaveFileDialog();
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    d.SaveAs(dlg.FileName);
+                }
+
+            }
         }
     }
 }
