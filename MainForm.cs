@@ -201,17 +201,17 @@ namespace Paint
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            var d = ActiveMdiChild as DocumentForm;
+            //var d = ActiveMdiChild as DocumentForm;
 
-            if (d != null)
-            {
-                var dlg = new SaveFileDialog();
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    d.SaveAs(dlg.FileName);
-                }
+            //if (d != null)
+            //{
+            //    var dlg = new SaveFileDialog();
+            //    if (dlg.ShowDialog() == DialogResult.OK)
+            //    {
+            //        d.SaveAs(dlg.FileName);
+            //    }
 
-            }
+            //}
         }
     }
 }

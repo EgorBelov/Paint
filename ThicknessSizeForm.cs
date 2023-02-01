@@ -19,8 +19,20 @@ namespace Paint
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MainForm.Thickness = int.Parse(textBox1.Text);
-            Close();
+            //MainForm.Thickness = int.Parse(textBox1.Text);
+            //Close();
+            int d;
+            if (int.TryParse(textBox1.Text, out d))
+            {
+                MainForm.Thickness = d;
+                Close();
+            }
+            else
+            {
+                //invalid
+                MessageBox.Show("Please enter a valid number");
+                Close();
+            }
         }
     }
 }

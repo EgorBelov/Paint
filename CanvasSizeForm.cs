@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Paint
 {
@@ -26,9 +27,19 @@ namespace Paint
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MainForm.Height = int.Parse(textBox3.Text);
-            MainForm.Height = int.Parse(textBox2.Text);
-            Close();
+            int d, b;
+            if (int.TryParse(textBox3.Text, out d) && int.TryParse(textBox2.Text, out b))
+            {
+                MainForm.Height = d;
+                MainForm.Width = b;
+                Close();
+            }
+            else
+            {
+                //invalid
+                MessageBox.Show("Please enter a valid number");
+                Close();
+            }
         }
 
         private void CanvasSizeForm_Load(object sender, EventArgs e)

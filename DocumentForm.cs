@@ -136,8 +136,8 @@ namespace Paint
 
         private void button2_Click(object sender, EventArgs e)
         {
-            pictureBox1.Height -= 50;
-            pictureBox1.Width -= 50;
+            //pictureBox1.Height -= 50;
+            //pictureBox1.Width -= 50;
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.BackgroundImageLayout = ImageLayout.Stretch;
         }
