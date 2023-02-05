@@ -23,6 +23,14 @@ namespace Paint
         /// <summary>
         /// Звезда
         /// </summary>
-        Star
+        Star,
+        /// <summary>
+        /// Масштаб
+        /// </summary>
+        Scroll,
+        /// <summary>
+        /// Ластик
+        /// </summary>
+        Eraser
     }
 }

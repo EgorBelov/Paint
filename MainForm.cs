@@ -16,6 +16,7 @@ namespace Paint
     {
         public static Color Color { get; set; }
         public static Tools Tool { get; set; }
+        public static Tools Prev_Tool { get; set; }
         public static int Width { get; set; }
         public static int Height { get; set; }
         public static int Thickness { get; set; }
@@ -25,6 +26,7 @@ namespace Paint
             InitializeComponent();
             Color = Color.Black;
             Tool = Tools.Pen;
+            Prev_Tool = Tools.Pen;
             Width = 600;
             Height = 400;
             Thickness = 1;
@@ -146,64 +148,55 @@ namespace Paint
         {
             //if (DocumentForm.pictureBox1 != null)
             //{
-                Tool = Tools.Pen;
-                Color = DocumentForm.backColor;
+                Tool = Tools.Eraser;
+              
             //}
         }
 
         private void открытьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var dlg = new OpenFileDialog();
-            dlg.Filter = "Windows Bitmap (*.bmp)|*.bmp| Файлы JPEG (*.jpeg, *.jpg)|*.jpeg;*.jpg|Все файлы ()*.*|*.*";
+            dlg.Filter = "Файлы JPEG (*.jpeg, *.jpg)|*.jpeg;*.jpg|Windows Bitmap (*.bmp)|*.bmp|Все файлы ()*.*|*.*";
             if (dlg.ShowDialog() == DialogResult.OK)
             {
-                var documentForm = new DocumentForm(new Bitmap(dlg.FileName), dlg.FileName);
-                documentForm.MdiParent = this;
-                documentForm.Show();
+                var newBitmap = new Bitmap(Bitmap.FromFile(dlg.FileName));
+                string newPath = dlg.FileName;
+                var newForm = new DocumentForm(newBitmap, newPath);
+                newForm.saveDlg.FileName = dlg.FileName;
+                newForm.WasOpened = true;
+                newForm.FilePath = newPath;
+                newForm.Text = dlg.FileName.Split('\\').Last();
+                newForm.MdiParent = this;
+                newForm.Show();
             }
-            
-
         }
 
         private void сохранитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             var d = ActiveMdiChild as DocumentForm;
 
+            Bitmap currentBitmap = d.bitmap;
             if (d != null && !(d.WasOpened))
             {
                 var dlg = new SaveFileDialog();
                 dlg.AddExtension = true;
-                dlg.Filter = "Windows Bitmap (*.bmp)|*.bmp| Файлы JPEG (*.jpg)|*.jpg";
+                dlg.Filter = " Файлы JPEG (*.jpg)|*.jpg|Windows Bitmap (*.bmp)|*.bmp";
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    d.SaveAs(dlg.FileName);
+                    currentBitmap.Save(dlg.FileName);
+                    d.WasOpened = true;
+                    d.FilePath = dlg.FileName;
+                    d.wasChanged = false;
+                    d.Text = dlg.FileName.Split('\\').Last();
+                    d.saveDlg = dlg;
                 }
             }
             else if (d != null && d.WasOpened)
             {
-                d.SaveAs(d.FilePath);
+                d.bitmap.Save(d.saveDlg.FileName);
+                d.WasOpened = true;
+                d.wasChanged = false;
             }
-
-            //DocumentForm currentform = (DocumentForm)ActiveMdiChild;
-
-            //if (!currentform.WasOpened)
-            //{
-            //    currentform.WasOpened = true;
-            //    SaveFileDialog dlg = new SaveFileDialog();
-            //    dlg.AddExtension = true;
-            //    dlg.Filter = "Windows Bitmap (*.bmp)|*.bmp| Файлы JPEG (*.jpg)|*.jpg";
-            //    ImageFormat[] ff = { ImageFormat.Bmp, ImageFormat.Jpeg };
-
-            //    if (dlg.ShowDialog() == DialogResult.OK)
-            //    {
-            //        currentform.bitmap.Save(dlg.FileName, ff[dlg.FilterIndex - 1]);
-            //    }
-            //    currentform.dlg = dlg;
-            //}
-            //else
-            //{
-            //    currentform.bitmap.Save(currentform.dlg.FileName, System.Drawing.Imaging.ImageFormat.Bmp);
-            //}
         }
 
         private void сохранитьКакToolStripMenuItem_Click(object sender, EventArgs e)
@@ -214,10 +207,15 @@ namespace Paint
             {
                 var dlg = new SaveFileDialog();
                 dlg.AddExtension = true;
-                dlg.Filter = "Windows Bitmap (*.bmp)|*.bmp| Файлы JPEG (*.jpg)|*.jpg";
+                dlg.Filter = " Файлы JPEG (*.jpg)|*.jpg|Windows Bitmap (*.bmp)|*.bmp";
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    d.SaveAs(dlg.FileName);
+                    d.bitmap.Save(dlg.FileName);
+                    d.WasOpened = true;
+                    d.FilePath = dlg.FileName;
+                    d.Text = dlg.FileName.Split('\\').Last();
+                    d.saveDlg = dlg;
+                    d.wasChanged = false;
                 }
 
             }
@@ -248,6 +246,12 @@ namespace Paint
         private void lineStripButton_Click(object sender, EventArgs e)
         {
             Tool = Tools.Line;
+        }
+
+        private void файлToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            сохранитьToolStripMenuItem.Enabled = !(ActiveMdiChild == null);
+            сохранитьКакToolStripMenuItem.Enabled = !(ActiveMdiChild == null);
         }
     }
 }

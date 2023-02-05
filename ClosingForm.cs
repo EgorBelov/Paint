@@ -12,28 +12,45 @@ namespace Paint
 {
     public partial class ClosingForm : Form
     {
-        public ClosingForm()
+        private DocumentForm currentForm;
+        public ClosingForm(DocumentForm d)
         {
+            currentForm = d;
             InitializeComponent();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var d = ActiveMdiChild as DocumentForm;
-
-            if (d != null)
+            Bitmap currentBitmap = currentForm.bitmap;
+            if (currentForm != null && !(currentForm.WasOpened))
             {
                 var dlg = new SaveFileDialog();
+                dlg.AddExtension = true;
+                dlg.Filter = " Файлы JPEG (*.jpg)|*.jpg|Windows Bitmap (*.bmp)|*.bmp";
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
-                    d.SaveAs(dlg.FileName);
+                    currentBitmap.Save(dlg.FileName);
+                    currentForm.WasOpened = true;
+                    currentForm.FilePath = dlg.FileName;
+                    currentForm.wasChanged = false;
+                    currentForm.Text = dlg.FileName.Split('\\').Last();
+                    currentForm.saveDlg = dlg;
                 }
-
             }
+            else if (currentForm != null && currentForm.WasOpened)
+            {
+                currentForm.bitmap.Save(currentForm.saveDlg.FileName);
+                currentForm.WasOpened = true;
+                currentForm.wasChanged = false;
+            }
+            currentForm.Close();
+            Close();
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
+            currentForm.wasChanged = false;
+            currentForm.Close();
             Close();
         }
 

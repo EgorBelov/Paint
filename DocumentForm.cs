@@ -17,7 +17,10 @@ namespace Paint
         public Bitmap bitmap;
         private Bitmap bitmapTemp;
         public bool WasOpened = false;
+        public bool wasChanged = false;
         public string FilePath = "";
+        public Tools prev_tool = MainForm.Tool;
+        public SaveFileDialog saveDlg = new SaveFileDialog();
         public static Color backColor = Color.White;
         //PictureBox org;
         Image img;
@@ -60,24 +63,38 @@ namespace Paint
                 switch (MainForm.Tool)
                 {
                     case Tools.Pen:
+                        bitmapTemp = (Bitmap)bitmap.Clone();
                         var g = Graphics.FromImage(bitmap);
+                        g.SmoothingMode = SmoothingMode.HighQuality;
                         g.DrawLine(pen, x, y, e.X, e.Y);
                         x = e.X;
                         y = e.Y;
-
+                        pictureBox1.Image = bitmapTemp;
+                        break;
+                    case Tools.Eraser:
+                        bitmapTemp = (Bitmap)bitmap.Clone();
+                        g = Graphics.FromImage(bitmap);
+                        g.SmoothingMode = SmoothingMode.HighQuality;
+                        pen.Color = backColor;
+                        g.DrawLine(pen, x, y, e.X, e.Y);
+                        x = e.X;
+                        y = e.Y;
+                        pictureBox1.Image = bitmapTemp;
                         break;
                     case Tools.Line:
                         bitmapTemp = (Bitmap)bitmap.Clone();
                         g = Graphics.FromImage(bitmapTemp);
-                       
+                        g.SmoothingMode = SmoothingMode.HighQuality;
 
                         g.DrawLine(pen, x, y, e.X, e.Y);
+
                         pictureBox1.Image = bitmapTemp;
                         //x = e.X; y = e.Y;
                         break;
                     case Tools.Circle:
                         bitmapTemp = (Bitmap)bitmap.Clone();
                         g = Graphics.FromImage(bitmapTemp);
+                        g.SmoothingMode = SmoothingMode.HighQuality;
                         g.DrawEllipse(pen, new Rectangle(x, y, e.X - x, e.Y - y));
                         pictureBox1.Image = bitmapTemp;
                         //img = pictureBox1.Image;
@@ -93,7 +110,7 @@ namespace Paint
                         break;
                 }
 
-                
+                wasChanged = true;
                 pictureBox1.Invalidate();
                 img = pictureBox1.Image;
             }
@@ -104,10 +121,7 @@ namespace Paint
 
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
+        
         private void DocumentForm_MouseUp(object sender, MouseEventArgs e)
         {
             switch (MainForm.Tool)
@@ -120,6 +134,10 @@ namespace Paint
                     break;
                 case Tools.Star:
                     bitmap = bitmapTemp;
+                    break;
+                case Tools.Scroll:
+                    MainForm.Tool = MainForm.Prev_Tool;
+                    bitmap = (Bitmap)pictureBox1.Image;
                     break;
             }
         }
@@ -159,14 +177,15 @@ namespace Paint
 
         private void DocumentForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-           
-                var dlg = new SaveFileDialog();
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    this.SaveAs(dlg.FileName);
-                }
 
-           
+            if (wasChanged)
+            {
+                e.Cancel = true;
+                var Closing = new ClosingForm(this);
+                Closing.Show();
+            }
+
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -186,8 +205,8 @@ namespace Paint
         }
         Image ZoomPicture(Image img, Size size)
         {
-            Bitmap bm = new Bitmap(img, Convert.ToInt32(img.Width * size.Width),
-                Convert.ToInt32(img.Height * size.Height));
+            Bitmap bm = new Bitmap(img, img.Width + (img.Width * size.Width / 100), img.Height + (img.Height * size.Height / 100));
+               
             Graphics gpu = Graphics.FromImage(bm);
             gpu.InterpolationMode = InterpolationMode.HighQualityBicubic;
             return bm;
@@ -196,12 +215,26 @@ namespace Paint
         {
             if (trackBar1.Value != 0)
             {
-                //Image img = pictureBox1.Image
-                //pictureBox1.Image = null;
-                pictureBox1.Image = ZoomPicture(img, new Size(trackBar1.Value, trackBar1.Value));
+                switch (MainForm.Tool)
+                {
+                    case Tools.Pen:
+                        MainForm.Prev_Tool = Tools.Pen;
+                        break;
+                    case Tools.Line:
+                        MainForm.Prev_Tool = Tools.Line;
+                        break;
+                    case Tools.Circle:
+                        MainForm.Prev_Tool = Tools.Circle;
+                        break;
+                    case Tools.Star:
+                        MainForm.Prev_Tool = Tools.Star;
+                        break;
+                }
+                MainForm.Tool = Tools.Scroll;
+                bitmapTemp = (Bitmap)bitmap.Clone();
+                pictureBox1.Image = ZoomPicture(bitmapTemp, new Size(trackBar1.Value, trackBar1.Value));
             }
         }
-
         private PointF[] Calculate5StarPoints(PointF Orig, float outerradius, float innerradius)
         {
             // Define some variables to avoid as much calculations as possible

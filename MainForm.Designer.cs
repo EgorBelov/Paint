@@ -55,12 +55,12 @@
             this.thicknessStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.penStripButton = new System.Windows.Forms.ToolStripButton();
+            this.lineStripButton = new System.Windows.Forms.ToolStripButton();
             this.circleStripButton = new System.Windows.Forms.ToolStripButton();
             this.starStripButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.backgroundStripButton = new System.Windows.Forms.ToolStripButton();
             this.eraserStripButton = new System.Windows.Forms.ToolStripButton();
-            this.lineStripButton = new System.Windows.Forms.ToolStripButton();
             this.menuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -92,6 +92,7 @@
             this.файлToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
             this.файлToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
             this.файлToolStripMenuItem.Text = "Файл";
+            this.файлToolStripMenuItem.Click += new System.EventHandler(this.файлToolStripMenuItem_Click);
             // 
             // новыйToolStripMenuItem
             // 
@@ -303,6 +304,16 @@
             this.penStripButton.Text = "Перо";
             this.penStripButton.Click += new System.EventHandler(this.penStripButton_Click);
             // 
+            // lineStripButton
+            // 
+            this.lineStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.lineStripButton.Image = ((System.Drawing.Image)(resources.GetObject("lineStripButton.Image")));
+            this.lineStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.lineStripButton.Name = "lineStripButton";
+            this.lineStripButton.Size = new System.Drawing.Size(46, 22);
+            this.lineStripButton.Text = "Линия";
+            this.lineStripButton.Click += new System.EventHandler(this.lineStripButton_Click);
+            // 
             // circleStripButton
             // 
             this.circleStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -347,16 +358,6 @@
             this.eraserStripButton.Size = new System.Drawing.Size(49, 22);
             this.eraserStripButton.Text = "Ластик";
             this.eraserStripButton.Click += new System.EventHandler(this.eraserStripButton_Click);
-            // 
-            // lineStripButton
-            // 
-            this.lineStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-            this.lineStripButton.Image = ((System.Drawing.Image)(resources.GetObject("lineStripButton.Image")));
-            this.lineStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.lineStripButton.Name = "lineStripButton";
-            this.lineStripButton.Size = new System.Drawing.Size(46, 22);
-            this.lineStripButton.Text = "Линия";
-            this.lineStripButton.Click += new System.EventHandler(this.lineStripButton_Click);
             // 
             // MainForm
             // 
