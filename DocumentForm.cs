@@ -233,6 +233,7 @@ namespace Paint
                 MainForm.Tool = Tools.Scroll;
                 bitmapTemp = (Bitmap)bitmap.Clone();
                 pictureBox1.Image = ZoomPicture(bitmapTemp, new Size(trackBar1.Value, trackBar1.Value));
+                
             }
         }
         private PointF[] Calculate5StarPoints(PointF Orig, float outerradius, float innerradius)
